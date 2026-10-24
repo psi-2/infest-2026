@@ -1,0 +1,13 @@
+versi,public,private,selisih,rank_public,rank_private,catatan
+v5 + v11,0.91815,0.95305,0.0349,2,1,rata-rata v5 dan v11 - PRIVATE TERBAIK
+v11 naflex,0.90707,0.95147,0.0444,8,2,SigLIP2 NaFlex
+ens8 + TTA,0.91285,0.94785,0.035,4,3,ensemble 8 model + TTA
+B + v11 page,0.9124,0.94015,0.02775,6,4,page dari v11 1024
+ViT-7B,0.90966,0.93773,0.02807,7,5,"LoRA, holdout fold 3"
+v6 C,0.91273,0.93592,0.02319,5,6,"perbaikan stretch, 10 baris"
+hybrid B,0.9182,0.93349,0.01529,1,7,page v5 + non-page v2 - DIPILIH
+v3,0.89077,0.92827,0.0375,9,8,tile page
+v2,0.91514,0.91946,0.00432,3,9,"corrupt sebelum preprocess, group CV"
+v7 kNN,0.88808,0.91306,0.02498,10,10,"ArcFace + SupCon, dibaca kNN"
+v1,0.86289,0.87594,0.01305,11,11,"baseline letterbox, holdout acak"
+Laksamada awal,0.82721,0.83675,0.00954,12,12,percobaan awal anggota lain

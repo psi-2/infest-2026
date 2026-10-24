@@ -116,3 +116,44 @@ Catatan: evaluasi "corrupt" memakai `corrupt()` sendiri (sirkular) — angka ini
 | r2 = + `remove_dark_bars` | 50 line paling ragu: terhapus 22% → 16% | kurang |
 | **v6 = r2 + statistik stretch dari piksel konten** | terhapus 22% → **10%**; train (.961) & block/glyph tidak berubah; train terkorupsi .75 ≈ test .77 (terkalibrasi) | dipakai; efek samping: segitiga abu lebih gelap (sama di train) |
 | cakupan | v6 mengubah 95 baris test non-page (31% conf<.6 vs 3% baris lain); 0.9% train bersih | submission C = B + v6 hanya di 95 baris itu |
+
+---
+
+# Round 6 — setelah C/v6-targeted (LB 0.91273) dan v7 teman (LB 0.88808)
+
+| # | Temuan (angka) | Script | Arti → tindakan |
+|---|---|---|---|
+| 30a | C beda dari B hanya 10 line, LB −0.00547. Forensics: C benar ±20% (q .0–.4). **Noise sampling public untuk 10 baris saja sd .003–.004** | eda/30 | selisih LB < ±0.004 dari perubahan <40 baris hampir tidak informatif; target +0.0018 lebih kecil dari noise |
+| 30b | Gaya visual (warna kertas/tinta, bar, noise) saja menebak kelas line test yang yakin: acc .72 (mayoritas .46). Line jawi test berkertas kekuningan (236,226,203); train jawi semuanya biner putih | eda/30 | sumber test ≠ sumber train per kelas; jangan andalkan teks yang "dipulihkan" di baris ambigu |
+| 31 | Train bersih: harakat (komponen kecil) pegon **.47** vs jawi **.07** (line). Setelah corrupt(): .18 vs .13, AUC pembeda .65 → .56. Test pegon ±.15 (sama rusaknya) | eda/31 | korupsi konsisten dengan test di sumbu ini; tidak ada tuas aman |
+| 32 | B-jawi test dengan harakat tinggi: campuran kamus jawi ("jilat = جيلت") dan teks Arab bervokal (B yakin .87–.89) | eda/32 | bukan tuas aman untuk dibalik |
+| v7 | Probe beku: kNN ref-bersih → query-korup .952 ≥ linear-korup .940 ≥ kNN ref-korup .933 | analysis/v7_review | desain kNN v7 bukan penyebab kalah; kemungkinan: tanpa page view (−0.003 terbukti), 1 model full-data tanpa seleksi epoch/fold-ensemble, tanpa twin |
+| 12 | Domain AUC deep (corrupt train vs test, canvas v6): **.832** (line .836, block .781, glyph .826); clean .902. Test Q4 paling "khas test" low-conf 10.9% vs 3.5–5.7% | prepro/12 | gap masih ada; paling terlihat: wedge abu memanjang, crop vertikal, noise di atas blur |
+| 33 | TTA page (448+640, +view v2) di probe: semua ≤ 640 saja | eda/33 | tidak dipakai |
+| 35 | OOF ensemble run yang ada: non-page v2 .9885, v6 .9910, **v2+v4s2026+v6 .9924** (+14 baris, CI +.0017..+.0063); page v5 .864 terbaik, semua ensemble page lebih rendah | eda/35 | tapi di test hanya 10 baris non-page beda dari B → skala yang sama dengan C |
+
+| Percobaan prepro round 6 (corrupt_v8, prepro/13) | Domain AUC ↓ | Probe acc (korup) | Keputusan |
+|---|---|---|---|
+| v2 corrupt | **.832** | .940 | tetap |
+| occluder wedge memanjang p=.3, 1–4 | .853 | .919 | **rusak**: lebih jauh dari test + merusak sinyal kelas |
+| crop vertikal potong glyph p=.25 | .835 | .931 | ditolak |
+| noise sebelum blur | .837 | **.948** | kandidat (netral di AUC, +.008 probe) |
+| gabungan | .862–.864 | .90 | ditolak |
+| 34 | Resolusi page (probe beku): 448 .67 / **640 .71–.72** / 768 .69–.72 / 896 .68–.69 | eda/34 | **plateau di 640**, tidak dinaikkan |
+| 36 | Semua ensemble run non-page memindahkan baris ragu **ke jawi** (lontara→jawi, pegon→jawi, bali→jawi), pola yang sama dengan perubahan v3-only dan C yang dihukum LB | eda/36 | "jawi attractor" |
+| 37 | Prior efektif model: jawi 20.6%; EM test (B): jawi **11.7%**, pegon 19.1%, lampung 19.3%. Koreksi α=.5 → 18 baris (jawi→pegon 14), α=1 → 34 baris; **0 baris ke jawi**; di baris yang dihukum LB koreksi mempertahankan label B 70–72%. Tapi uji OOF-resample: netral (−.0002..−.0005) | eda/37 | konsisten dengan LB, tidak terbukti offline → kandidat probe 1 slot, bukan perubahan default |
+
+## Rancangan v8 (belum jadi notebook)
+
+**Prinsip dari round 6:** noise sampling public (sd .003–.004 untuk 10–40 baris) ≥ selisih yang dikejar (+.0018). Keputusan harus bertumpu pada bukti yang (a) konsisten dengan SEMUA pembacaan LB dan (b) terlihat di OOF ribuan baris. Perubahan kecil ber-OOF-positif tapi menuju jawi sudah 2× kalah di LB.
+
+| Komponen | v8 | Bukti |
+|---|---|---|
+| line/block/glyph preprocess | v2 (bukan v6) | v6 OOF +, tapi di test menghasilkan pergeseran ke jawi (C −.0055) |
+| corrupt() | v2 + **noise sebelum blur** (satu-satunya knob yang tidak memperburuk gap: AUC .837 vs .832, probe .948 vs .940) | prepro/13 |
+| page | view 640 gray (v5), satu run | eda/22, 34; LB B +.003 |
+| inferensi | **prior-aware**: logits × (π_test/π_train)^α, α∈{0, .5}; π_test dari EM pada prediksi test sendiri (bukan label, tidak melatih ulang) | eda/37 |
+| validasi | OOF per tipe + paired bootstrap; setiap submission dibaca dengan eda/25 (q dan sd noise) | eda/25, 30 |
+| ditolak | wedge/crop vertikal, TTA page, blend page v2+v5, page >640, override teks-dipulihkan, ensemble non-page (arah jawi) | prepro/13, eda/29, 33, 34, 36 |
+
+Urutan slot yang disarankan: (1) `eda/outputs/37_prior_on_B/submission_B_prior_a0.5.csv` (tanpa training, 18 baris, menguji hipotesis jawi-attractor); (2) v8 hanya jika (1) tidak turun.

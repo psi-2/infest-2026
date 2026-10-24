@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="700" font-family="Segoe UI,Arial,sans-serif">
+<rect width="940" height="700" fill="white"/>
+<line x1="90.0" y1="70" x2="90.0" y2="610" stroke="#e8e8e8"/>
+<line x1="90" y1="610.0" x2="710" y2="610.0" stroke="#e8e8e8"/>
+<text x="90.0" y="634" font-size="13" fill="#555" text-anchor="middle">0.822</text>
+<text x="78" y="615.0" font-size="13" fill="#555" text-anchor="end">0.832</text>
+<line x1="214.0" y1="70" x2="214.0" y2="610" stroke="#e8e8e8"/>
+<line x1="90" y1="506.0" x2="710" y2="506.0" stroke="#e8e8e8"/>
+<text x="214.0" y="634" font-size="13" fill="#555" text-anchor="middle">0.842</text>
+<text x="78" y="511.0" font-size="13" fill="#555" text-anchor="end">0.858</text>
+<line x1="338.0" y1="70" x2="338.0" y2="610" stroke="#e8e8e8"/>
+<line x1="90" y1="402.0" x2="710" y2="402.0" stroke="#e8e8e8"/>
+<text x="338.0" y="634" font-size="13" fill="#555" text-anchor="middle">0.863</text>
+<text x="78" y="407.0" font-size="13" fill="#555" text-anchor="end">0.883</text>
+<line x1="462.0" y1="70" x2="462.0" y2="610" stroke="#e8e8e8"/>
+<line x1="90" y1="298.0" x2="710" y2="298.0" stroke="#e8e8e8"/>
+<text x="462.0" y="634" font-size="13" fill="#555" text-anchor="middle">0.883</text>
+<text x="78" y="303.0" font-size="13" fill="#555" text-anchor="end">0.909</text>
+<line x1="586.0" y1="70" x2="586.0" y2="610" stroke="#e8e8e8"/>
+<line x1="90" y1="194.0" x2="710" y2="194.0" stroke="#e8e8e8"/>
+<text x="586.0" y="634" font-size="13" fill="#555" text-anchor="middle">0.903</text>
+<text x="78" y="199.0" font-size="13" fill="#555" text-anchor="end">0.935</text>
+<line x1="710.0" y1="70" x2="710.0" y2="610" stroke="#e8e8e8"/>
+<line x1="90" y1="90.0" x2="710" y2="90.0" stroke="#e8e8e8"/>
+<text x="710.0" y="634" font-size="13" fill="#555" text-anchor="middle">0.923</text>
+<text x="78" y="95.0" font-size="13" fill="#555" text-anchor="end">0.961</text>
+<circle cx="120.7" cy="589.9" r="6.5" fill="#5470C6"/>
+<text x="132.7" y="593.9" font-size="14" fill="#222">Laksamada awal</text>
+<circle cx="339.7" cy="432.3" r="6.5" fill="#5470C6"/>
+<text x="351.7" y="436.3" font-size="14" fill="#222">v1</text>
+<circle cx="494.4" cy="283.0" r="6.5" fill="#5470C6"/>
+<text x="506.4" y="287.0" font-size="14" fill="#222">v7 kNN</text>
+<circle cx="510.9" cy="221.8" r="6.5" fill="#5470C6"/>
+<text x="522.9" y="225.8" font-size="14" fill="#222">v3</text>
+<circle cx="611.0" cy="128.5" r="6.5" fill="#5470C6"/>
+<text x="623.0" y="132.5" font-size="14" fill="#222">v11 naflex</text>
+<circle cx="626.9" cy="183.8" r="6.5" fill="#5470C6"/>
+<text x="638.9" y="187.8" font-size="14" fill="#222">ViT-7B</text>
+<circle cx="643.7" cy="174.1" r="6.5" fill="#5470C6"/>
+<text x="655.7" y="178.1" font-size="14" fill="#222">B + v11 page</text>
+<circle cx="645.7" cy="191.1" r="6.5" fill="#5470C6"/>
+<text x="657.7" y="195.1" font-size="14" fill="#222">v6 C</text>
+<circle cx="646.5" cy="143.1" r="6.5" fill="#5470C6"/>
+<text x="658.5" y="147.1" font-size="14" fill="#222">ens8 + TTA</text>
+<circle cx="660.5" cy="257.3" r="6.5" fill="#5470C6"/>
+<text x="672.5" y="261.3" font-size="14" fill="#222">v2</text>
+<circle cx="679.0" cy="122.2" r="14" fill="none" stroke="#EE6666" stroke-width="2.5"/>
+<circle cx="679.0" cy="122.2" r="6.5" fill="#EE6666"/>
+<text x="691.0" y="126.2" font-size="14" fill="#222">v5 + v11</text>
+<circle cx="679.3" cy="200.8" r="14" fill="none" stroke="#F0A202" stroke-width="2.5"/>
+<circle cx="679.3" cy="200.8" r="6.5" fill="#F0A202"/>
+<text x="691.3" y="204.8" font-size="14" fill="#222">hybrid B</text>
+<text x="400" y="672" font-size="15" text-anchor="middle">Public LB</text>
+<text x="26" y="350" font-size="15" text-anchor="middle" transform="rotate(-90 26 350)">Private LB</text>
+<text x="90" y="40" font-size="20" font-weight="600">Public LB menyesatkan: Spearman 0.58 dari 12 submission</text>
+<text x="90" y="64" font-size="14" fill="#666">Lingkaran oranye: public tertinggi (dipilih). Lingkaran merah: private tertinggi.</text>
+</svg>

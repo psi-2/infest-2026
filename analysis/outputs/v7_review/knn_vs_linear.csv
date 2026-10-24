@@ -1,0 +1,5 @@
+setup,acc,macro_f1,pegon_recall,jawi_recall
+a_knn_cleanref_corruptq (v7),0.952,0.95,0.922,0.955
+b_knn_corruptref_corruptq,0.933,0.931,0.835,0.909
+c_linear_corrupt (v2-like),0.94,0.938,0.861,0.915
+d_knn_clean_clean,0.977,0.975,0.904,0.979
